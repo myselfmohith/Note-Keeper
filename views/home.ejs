@@ -1,0 +1,157 @@
+<h1><%= user.name %>'s Clipboard</h1>
+<a onclick="toogleitemBar()" >Add new Clip</a>
+<div class="additemcontainer">
+    <form action="/" method="POST">
+        <input type="text" name='title' placeholder="title(optinal)" />
+        <textarea rows="5" placeholder="content" name='content' required></textarea>
+        <button type="submit">Clip IT</button>
+    </form>
+</div>
+
+<div class="notes-container">
+    <% if(user.clips.length===0) { %>
+        <h2>Empty Clips</h2>
+    <% } else { %>
+        <% user.clips.forEach(clip => { %>
+            <ul>
+                <li>
+                    <div class="note-item">
+                        <div class="note-heading">
+                            <h3><%= clip.title || "Clip Item"%></h3>
+                            <span><%= clip.date%></span>
+                        </div>
+                        <p><%=clip.content%></p>
+                        <p style="text-align: right;"><a style="text-decoration: none;" href="/delete/<%=clip.id %>">Delete this clip</a></p>
+                    </div>
+                </li>
+            </ul>
+        <% }); %>
+    <% } %>
+</div>
+<a href="/logout">Logout</a>
+
+<style>
+
+    a{
+        cursor: pointer;
+    }
+
+
+    .additemcontainer {
+        display: none;
+        min-width: 250px;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .showitem{
+        display: unset;
+    }
+
+    .additemcontainer form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .notes-container ul {
+        padding: 0;
+    }
+
+    .additemcontainer form *{
+        padding: 5px;
+        font-size: 16px;
+        margin: 5px auto;
+        min-width: 90%;
+    }
+
+    .additemcontainer form input{
+        font-size: 20px;
+        min-height: 25px;
+    }
+
+    .additemcontainer form button{
+        min-width: 100px;
+        min-height: 25px;
+    }
+
+    .notes-container ul li {
+        list-style: none;
+    }
+
+    .notes-container {
+        min-height: 500px;
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .note-item * {
+        transition: 0.5s;
+    }
+
+    .note-item {
+        text-align: left;
+        margin: 10px auto;
+        min-width: 250px;
+        max-width: 1000px;
+        border: solid #ffffff35;
+        border-radius: 20px;
+        padding-bottom: 10px;
+        transition: 0.2s;
+        box-shadow: 0 1px 5px 5px #00000025;
+    }
+
+    .note-item:hover{
+        transform: translate(0,3px);
+        border: solid #99999925;
+        box-shadow: unset;
+    }
+
+    .note-item .note-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: solid 0.5px #22222280;
+        margin-bottom: 10px;
+    }
+
+    .note-heading h3 {
+        margin: 5px;
+        font-size: 25px;
+        width: 100%;
+        display: inline-block;
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .note-heading span {
+        color: grey;
+    }
+
+    .note-item p {
+        margin: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+
+    .note-item p:hover{
+        -webkit-line-clamp: 999;
+    }
+</style>
+
+
+<script>
+
+    function toogleitemBar(){
+        document.querySelector(".additemcontainer").classList.toggle('showitem');
+    }
+
+</script>
+
