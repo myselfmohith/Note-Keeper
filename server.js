@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/ClipBoard", { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(process.env.DBURL, { useUnifiedTopology: true, useNewUrlParser: true });
 const UserDB = require('./models/DataBaseSchma');
 const session = require('express-session');
 const passport = require('passport');
@@ -116,7 +116,7 @@ app.get("/delete/:id", async (req, res) => {
 // ---------------------------------------------------------------------
 
 
-app.listen(688);
+app.listen(process.env.PORT);
 
 
 // __________________________Notes_______________________________________
