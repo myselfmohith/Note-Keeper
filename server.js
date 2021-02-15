@@ -30,7 +30,7 @@ passport.use(new passportLocal((username, password, done) => {
 passport.use(new googlepassport({
     clientID: process.env.GID,
     clientSecret: process.env.GSEC,
-    callbackURL: "/auth/google/done",
+    callbackURL: "https://transclipboard.herokuapp.com/auth/google/done",
     userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
   },
   function(token, tokenSecret, profile, done) {
