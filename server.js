@@ -30,7 +30,8 @@ passport.use(new passportLocal((username, password, done) => {
 passport.use(new googlepassport({
     clientID: process.env.GID,
     clientSecret: process.env.GSEC,
-    callbackURL: "/auth/google/done"
+    callbackURL: "/auth/google/done",
+    userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
   },
   function(token, tokenSecret, profile, done) {
       UserDB.findOne({ username: profile.id }, async (err, user) => {
