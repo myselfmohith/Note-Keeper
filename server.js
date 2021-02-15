@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/ClipBoard" || process.env.DBURL, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(process.env.DBURL, { useUnifiedTopology: true, useNewUrlParser: true });
 const UserDB = require('./models/DataBaseSchma');
 const session = require('express-session');
 const passport = require('passport');
