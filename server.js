@@ -1,15 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DBURL, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/ClipBoard" || process.env.DBURL, { useUnifiedTopology: true, useNewUrlParser: true });
 const UserDB = require('./models/DataBaseSchma');
 const session = require('express-session');
 const passport = require('passport');
+const googlepassport = require("passport-google-oauth").OAuth2Strategy;
 const passportLocal = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
 
 // Passport Login Setup ===============================================
 
+// Local Authentication
 passport.use(new passportLocal((username, password, done) => {
     UserDB.findOne({ username: username }, async (err, user) => {
         if (err) done(err);
@@ -22,6 +24,33 @@ passport.use(new passportLocal((username, password, done) => {
         return done;
     })
 }))
+
+
+// Google Authentication
+passport.use(new googlepassport({
+    clientID: process.env.GID,
+    clientSecret: process.env.GSEC,
+    callbackURL: "/auth/google/done"
+  },
+  function(token, tokenSecret, profile, done) {
+      UserDB.findOne({ username: profile.id }, async (err, user) => {
+          if (err) done(err)
+          else {
+              if (user != null) done(null, user)
+              else {
+                  const newUser = new UserDB({
+                      username: profile.id,
+                      name: profile.displayName
+                  })
+                  await newUser.save();
+                  done(null, newUser);
+              }
+          }
+      })
+      return done;
+  }
+));
+
 
 // --------------------------------------------------------------------
 
@@ -112,11 +141,20 @@ app.get("/delete/:id", async (req, res) => {
     res.redirect("/");
 })
 
+// Authentication google
+app.get("/auth/google", passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/done', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
 
 // ---------------------------------------------------------------------
 
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 688);
 
 
 // __________________________Notes_______________________________________

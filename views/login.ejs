@@ -1,9 +1,10 @@
-<h1>Login</h1>
+<h1><i class="fas fa-user fa-3x"></i></h1>
 <form action="/login" method="POST">
     <input type="text" name="username" placeholder="username" required />
     <input type="text" name="password" placeholder="password" required />
-    <button type="submit">LOGIN</button>
-    <label>don't have an account? <a href="/register">sign up</a> </label>
+    <button type="submit">Login <i class="fas fa-sign-in-alt"></i></button>
+    <label>don't have an account? <a href="/register">sign up</a> <br>or<br>contnue with</label>
+    <a href="/auth/google" id='viagoogle'><i class="fab fa-google"></i>oogle</a>
 </form>
 
 
@@ -11,7 +12,7 @@
     body {
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
+        min-height: 80vh;
         justify-content: center;
         align-items: center;
     }
@@ -48,4 +49,27 @@
     form label {
         font-size: 18px;
     }
+
+
+    #viagoogle{
+        margin: 10px auto;
+        color: 	#DB4437;
+        min-height: 25px;
+        font-size: 20px;
+        text-decoration: none;
+        border: solid 0.5px;
+        padding: 10px 25px;
+        border-radius: 5px;
+        transition: unset;
+    }
+
+    #viagoogle *{transition: unset;}
+
+    #viagoogle:hover{
+        background-color: #DB4437;
+        color: white;
+    }
+
+
+
 </style>
